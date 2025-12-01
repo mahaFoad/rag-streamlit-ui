@@ -10,7 +10,7 @@ from pathlib import Path
 # Configuration
 # ==========================
 # Replace with your actual Render backend URL after deployment
-BACKEND_URL = os.getenv("RAG_API_BASE", "https://your-backend.onrender.com")
+BACKEND_URL = os.getenv("RAG_API_BASE", "https://rag-backend-llnz.onrender.com")
 
 # ==========================
 # Page Config
