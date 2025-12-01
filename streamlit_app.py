@@ -16,12 +16,12 @@ from pathlib import Path
 DEFAULT_BACKEND_URL = "https://rag-backend-llnz.onrender.com"
 
 try:
-    BACKEND_URL = st.secrets.get("RAG_API_BASE", "").strip()
+    BACKEND_URL = st.secrets.get("RAG_API_BASE", "https://rag-backend-llnz.onrender.com").strip()
 except Exception:
     BACKEND_URL = ""
 
 if not BACKEND_URL:
-    BACKEND_URL = os.getenv("RAG_API_BASE", "").strip()
+    BACKEND_URL = os.getenv("RAG_API_BASE", "https://rag-backend-llnz.onrender.com").strip()
 
 if not BACKEND_URL:
     BACKEND_URL = DEFAULT_BACKEND_URL
