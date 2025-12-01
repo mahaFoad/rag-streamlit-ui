@@ -115,7 +115,7 @@ st.sidebar.title("🧭 Control Panel")
 with st.sidebar:
     st.markdown("### 🔗 Backend Status")
     try:
-        response = requests.get(f"{BACKEND_URL}/health", timeout=5)
+        response = requests.get(f"{BACKEND_URL}/health", timeout=30)
         if response.status_code == 200:
             st.success("✅ Connected")
         else:
@@ -178,12 +178,20 @@ def get_http_session():
     s.headers.update({"Content-Type": "application/json"})
     return s
 
+def wake_up_backend():
+    """Wake up the backend if it's sleeping (Render free tier)"""
+    try:
+        response = requests.get(f"{BACKEND_URL}/health", timeout=60)
+        return response.status_code == 200
+    except:
+        return False
+        
 def run_rag_pipeline(query: str, embedding_model: str, llm_model: str,
                      author: Optional[str], status: Optional[str],
                      alpha: float, k: int) -> dict:
     """Call the FastAPI backend /ask endpoint"""
     
-    if not BACKEND_URL or BACKEND_URL == "https://your-backend.onrender.com":
+    if not BACKEND_URL or BACKEND_URL == "https://rag-backend-llnz.onrender.com":
         return {
             "answer": "⚠️ Backend URL not configured. Please set RAG_API_BASE environment variable.",
             "chunks": []
@@ -212,7 +220,7 @@ def run_rag_pipeline(query: str, embedding_model: str, llm_model: str,
     
     try:
         session = get_http_session()
-        resp = session.post(f"{BACKEND_URL}/ask", json=payload, timeout=90)
+        resp = session.post(f"{BACKEND_URL}/ask", json=payload, timeout=180)
         resp.raise_for_status()
         data = resp.json()
         
