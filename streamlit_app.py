@@ -10,7 +10,20 @@ from pathlib import Path
 # Configuration
 # ==========================
 # Replace with your actual Render backend URL after deployment
-BACKEND_URL = os.getenv("RAG_API_BASE", "https://rag-backend-llnz.onrender.com")
+#BACKEND_URL = os.getenv("RAG_API_BASE", "https://rag-backend-llnz.onrender.com")
+# Try to get backend URL from Streamlit secrets first, then env, then fall back to hard-coded default
+DEFAULT_BACKEND_URL = "https://rag-backend-llnz.onrender.com"
+
+try:
+    BACKEND_URL = st.secrets.get("RAG_API_BASE", "").strip()
+except Exception:
+    BACKEND_URL = ""
+
+if not BACKEND_URL:
+    BACKEND_URL = os.getenv("RAG_API_BASE", "").strip()
+
+if not BACKEND_URL:
+    BACKEND_URL = DEFAULT_BACKEND_URL
 
 # ==========================
 # Page Config
