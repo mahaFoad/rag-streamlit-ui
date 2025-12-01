@@ -144,7 +144,7 @@ st.sidebar.markdown("---")
 # Model Selection
 st.sidebar.markdown("<h3 style='margin-bottom:0;'>🧩&nbsp;Embedding model</h3>", unsafe_allow_html=True)
 embedding_model = st.sidebar.selectbox(
-    "",
+    " ",
     ["intfloat/e5-large-v2", "all-MiniLM-L6-v2"],
     index=0,
     label_visibility="collapsed"
@@ -152,7 +152,7 @@ embedding_model = st.sidebar.selectbox(
 
 st.sidebar.markdown("<h3 style='margin-bottom:0;'>🤖&nbsp;LLM model</h3>", unsafe_allow_html=True)
 llm_model = st.sidebar.selectbox(
-    "",
+    " ",
     ["meta-llama/Meta-Llama-3-8B-Instruct", "gpt-4o-mini"],
     index=0,
     label_visibility="collapsed"
