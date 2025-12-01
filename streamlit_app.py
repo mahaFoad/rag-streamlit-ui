@@ -222,7 +222,7 @@ def run_rag_pipeline(query: str, embedding_model: str, llm_model: str,
     if not RAG_API_BASE:
         return {"answer": "❗ RAG_API_BASE is not set. Add it to st.secrets or os.environ.", "chunks": []}
                          
-    if not BACKEND_URL or BACKEND_URL == "https://rag-backend-llnz.onrender.com":
+    if not BACKEND_URL :
         return {
             "answer": "⚠️ Backend URL not configured. Please set RAG_API_BASE environment variable.",
             "chunks": []
