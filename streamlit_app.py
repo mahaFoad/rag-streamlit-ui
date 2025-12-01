@@ -204,12 +204,24 @@ def wake_up_backend():
 if not wake_up_backend():
     st.warning("⏳ Backend is waking up (this takes ~60 seconds on free tier)...")
     time.sleep(60) 
+
+def _resolve_api_base() -> Optional[str]:
+    # Prefer secrets, then env
+    try:
+        v = st.secrets.get("RAG_API_BASE", None)
+        if v: return v
+    except Exception:
+        pass
+    return os.environ.get("RAG_API_BASE")
     
 def run_rag_pipeline(query: str, embedding_model: str, llm_model: str,
                      author: Optional[str], status: Optional[str],
                      alpha: float, k: int) -> dict:
     """Call the FastAPI backend /ask endpoint"""
-    
+    RAG_API_BASE = _resolve_api_base()
+    if not RAG_API_BASE:
+        return {"answer": "❗ RAG_API_BASE is not set. Add it to st.secrets or os.environ.", "chunks": []}
+                         
     if not BACKEND_URL or BACKEND_URL == "https://rag-backend-llnz.onrender.com":
         return {
             "answer": "⚠️ Backend URL not configured. Please set RAG_API_BASE environment variable.",
