@@ -185,7 +185,11 @@ def wake_up_backend():
         return response.status_code == 200
     except:
         return False
-        
+
+if not wake_up_backend():
+    st.warning("⏳ Backend is waking up (this takes ~60 seconds on free tier)...")
+    time.sleep(60) 
+    
 def run_rag_pipeline(query: str, embedding_model: str, llm_model: str,
                      author: Optional[str], status: Optional[str],
                      alpha: float, k: int) -> dict:
