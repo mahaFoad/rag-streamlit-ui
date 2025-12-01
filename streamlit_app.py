@@ -118,6 +118,7 @@ with st.sidebar:
         response = requests.get(f"{BACKEND_URL}/health", timeout=30)
         if response.status_code == 200:
             st.success("✅ Connected")
+            st.sidebar.text(f"Backend: {BACKEND_URL}")
         else:
             st.error("❌ Error")
     except:
